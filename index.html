@@ -11,8 +11,9 @@
             box-sizing: border-box;
         }
         body{
-            background-color: rgba(30, 28, 28, 0.833);
             color: white;
+            background-image: url(https://i.pinimg.com/736x/bd/d7/1a/bdd71af0c077549fba6c0ca94c8f330c.jpg);
+            background-size: cover;
         }
         button{
             position: absolute;
@@ -33,13 +34,16 @@
         #randomAya{
             position: relative;
             font-family: 'anik';
-            padding: 0 10px;
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
+            padding: 20px 10px;
             text-align: center;
             font-size: 1.2rem;
-            
+   
+        }
+        .main{
+            height: 100vh;
+            width: 100vw;
+            display: grid;
+            place-items: center; 
         }
         @font-face{
             font-family: 'anik';
@@ -49,7 +53,11 @@
 </head>
 <body>
     <button onclick="showRandomAya()"><img src="refresh.png" alt=""></button>
-    <p id="randomAya"></p>
+    
+    <div class="main">
+        <p id="randomAya"></p>
+    </div>
+
 
     <script>
         // Sura name mapping from sura number (1–114) to sura name
