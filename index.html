@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Aya from Random Sura</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body{
+            background-color: rgba(30, 28, 28, 0.833);
+            color: white;
+        }
+        button{
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            z-index: 5;
+            border: none;
+            img{
+                width: 100%;
+            }
+            position: absolute;
+            top: 80vh;
+            left: 50%;
+            transform: translateX(-50%);
+            
+        }
+        #randomAya{
+            position: relative;
+            font-family: 'anik';
+            padding: 0 10px;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            text-align: center;
+            
+        }
+        @font-face{
+            font-family: 'anik';
+            src: url('font.ttf');
+        }
+    </style>
+</head>
+<body>
+    <button onclick="showRandomAya()"><img src="refresh.png" alt=""></button>
+    <p id="randomAya"></p>
+
+    <script>
+        // Sura name mapping from sura number (1–114) to sura name
+        const suraNames = [
+            "Al-Fatiha", "Al-Baqarah", "Aali Imran", "An-Nisa", "Al-Ma'idah", "Al-An'am", "Al-A'raf", 
+            "Al-Anfal", "At-Tawbah", "Yunus", "Hud", "Yusuf", "Ibrahim", "Al-Hijr", "An-Nahl", 
+            "Al-Isra", "Al-Kahf", "Maryam", "Ta-Ha", "Al-Anbiya", "Al-Hajj", "Al-Mu'minun", "An-Nur", 
+            "Al-Furqan", "Ash-Shu'ara", "An-Naml", "Al-Ankabut", "Ar-Rum", "Luqman", "As-Sajda", 
+            "Al-Ahzab", "Ya-Sin", "Az-Zumar", "Fussilat", "Al-Ahqaf", "Muhammad", "Al-Fath", "Al-Hujurat", 
+            "Qaf", "Adh-Dhariyat", "Al-Hadid", "Al-Mujadila", "Al-Hashr", "Al-Mumtahina", "As-Saff", 
+            "Al-Jumu'ah", "Al-Munafiqun", "At-Taghabun", "At-Talaq", "At-Tahrim", "Al-Mulk", "Al-Qalam", 
+            "Al-Haqqah", "Al-Ma'arij", "Nuh", "Al-Jinn", "Al-Muzzammil", "Al-Muddathir", "Al-Qiyama", 
+            "Al-Insan", "Al-Mursalat", "An-Naba", "An-Nazi'at", "Abasa", "At-Takwir", "Al-Infitar", 
+            "Al-Mutaffifin", "Al-Inshiqaq", "Al-Buruj", "At-Tariq", "Al-Alaq", "Al-Qadr", "Al-Bayyina", 
+            "Az-Zalzalah", "Al-Adiyat", "Al-Qari'a", "At-Takathur", "Al-Asr", "Al-Humazah", "Al-Fil", 
+            "Quraish", "Al-Ma'un", "Al-Kawthar", "Al-Kafirun", "An-Nasr", "Al-Masad", "Al-Ikhlas", 
+            "Al-Falaq", "An-Nas"
+        ];
+
+        // Fetch the JSON data from a file
+        async function fetchData() {
+            try {
+                const response = await fetch('data.json'); // Replace 'data.json' with the correct path
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error("Error loading the JSON file:", error);
+                return [];
+            }
+        }
+
+        // Function to get a random integer between min and max (inclusive)
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        // Function to display a random Aya from a random Sura
+        async function showRandomAya() {
+            const jsonData = await fetchData(); // Fetch the JSON data
+
+            if (jsonData.length === 0) {
+                document.getElementById("randomAya").innerText = "Error loading data.";
+                return;
+            }
+
+            // Get a random index for the JSON data
+            const randomIndex = getRandomInt(0, jsonData.length - 1);
+            const randomAya = jsonData[randomIndex];
+
+            // Get the Sura name from the mapping (sura number starts from 1)
+            const suraName = suraNames[randomAya.sura - 1];
+
+            // Display the random Aya's details
+            const randomAyaText = `${randomAya.text} (Surah ${suraName}-${randomAya.aya})`;
+            document.getElementById("randomAya").innerText = randomAyaText;
+        }
+
+        // Call the function to show a random Aya when the page loads
+        window.onload = showRandomAya;
+
+        
+    </script>
+</body>
+</html>
